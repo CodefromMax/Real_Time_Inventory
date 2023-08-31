@@ -1,6 +1,6 @@
 <?php  
 session_start(); 
-
+include("database_connect.php");
 
 if($_SESSION["search"] != ""){
     // Note: using the SELECT query style `table` #Order by Shelf is used in downloading the data
@@ -18,9 +18,7 @@ if($_SESSION["notify"] != ""){
     $sql = "SELECT * FROM `ITM_Inventory` WHERE (CAST(`Est_Quantity` AS SIGNED) < CAST(`Minimum` AS SIGNED)) ORDER BY `Item_ID` ASC ";
 }
 
-//Connect database
-$connect = mysqli_connect("localhost", "root", "twnetwork", "inv");  
- $output = '';  
+$output = '';  
 //  $sql = "SELECT * FROM ITM_inventory ORDER BY Item_ID ASC";  
 
 //Session variable is a temporary variable used to store PHP variable across different PHP pages

@@ -1,4 +1,6 @@
-<?php include('header.php'); ?>
+<?php include('header.php'); 
+include("database_connect.php");
+?>
 
 <!-- Search bar -->
 <form action="" method="GET">
@@ -14,7 +16,6 @@
 // HTML for table header
 
 include('build_logs_starter.php');
-$connect = mysqli_connect("localhost", "root", "twnetwork", "inv");  
 if(!isset($_GET['search_logs'])){
     // Note: using the SELECT query style `table` 
     $query = "SELECT * FROM `ITM_Logs`";

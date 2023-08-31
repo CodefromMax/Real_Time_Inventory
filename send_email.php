@@ -1,6 +1,7 @@
 <?php
 
 include("header.php");
+include("database_connect.php");
 session_start();
 if(isset($_GET['recipient'])){
    $Recipient = $_GET['recipient'];
@@ -14,7 +15,6 @@ else{
 
 $sql = "SELECT * FROM `ITM_Inventory` ORDER BY Item_ID ASC";
 
-$connect = mysqli_connect("localhost", "root", "twnetwork", "inv");  
 $output = '';  
 //  $sql = "SELECT * FROM ITM_inventory ORDER BY Item_ID ASC";  
 

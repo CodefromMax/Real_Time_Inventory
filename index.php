@@ -1,7 +1,25 @@
-<?php include("header.php"); ?>
-<?php date_default_timezone_set('America/Toronto'); 
-session_start(); ?>
+<?php 
+include("header.php"); 
+date_default_timezone_set('America/Toronto'); 
+session_start();
+?>
 
+<!-- <button class="open-button" onclick="openForm()">Open Form</button> -->
+
+<div class="form" id="myForm" style = "display: none;">
+  <form action="/action_page.php" class="form-container">
+    <h1>User Log</h1>
+
+    <label><b>Name</b></label>
+    <input type="text" placeholder="" name="name" required>
+
+    <label ><b>Note</b></label>
+    <input type="text" placeholder="Enter Note" name="note" required>
+
+    <button type="submit" class="btn">Login</button>
+    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  </form>
+</div>
 <!-- ########################  Search bar  ############################## -->
 <form action="" method="GET">
     <div id = "searchbar" class="input-group mb-3" style="width: 95%;padding: 50px;height:30px;">
@@ -39,12 +57,6 @@ $_SESSION["notify"] = $_GET['notify']; ?>
     </form>
 </div>
 
-<!-- <div id = "send">
-    <form method="post" action="send_email.php" style = "text-align:center;height: 7vh; ">  
-        <input type="submit" name="send_email" value="zhaoqi.wang@toronto.ca" class="btn btn-success" />  
-    </form>
-</div> -->
-
 <form action="send_email.php" method="GET" enctype="multipart/form-data"  style = "text-align:center; ">
         <label for="recipient">Recipient Email:</label>
         <input type="email" name="recipient" value = "zhaoqi.wang@toronto.ca" required>
@@ -54,9 +66,6 @@ $_SESSION["notify"] = $_GET['notify']; ?>
 <?php
 // Store variable
 $_SESSION["recipient"] = $_GET['recipient']; 
-// echo $_GET['recipient'];
-// include("send_email.php")
-// $_SESSION["default"] = $_GET['default']; 
 ?>
 
 <!-- <script src="tablesort.js"></script> -->
@@ -64,6 +73,24 @@ $_SESSION["recipient"] = $_GET['recipient'];
 <div id = "disp_data"></div>
 
 <script>
+
+// $("#form").submit( function(eventObj) {
+//       $("<input />").attr("type", "hidden")
+//           .attr("name", "something")
+//           .attr("value", "something")
+//           .appendTo("#form");
+//       return true;
+//   });
+
+
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
 // ############################### Insert data ##########################
 // If Add button is pressed
 $(document).on('click', '#btn_add', function(){  
@@ -103,7 +130,7 @@ $(document).on('click', '#btn_add', function(){
     function isEmpty(value) {
         return value.trim() === '';
     }
-
+    openForm()
     // Ready to insert variable 
     $.ajax({  
         url:"insert.php",  
@@ -213,7 +240,7 @@ function update1(id)
 
     var Note_id = "txtNote"+id;
     var Note =document.getElementById(Note_id).value;
-
+    openForm()
     // update_data(id, Name);
     update_data(id, Name, Supplier, Est_Quantity, Exact_Quantity, Minimum, Boxes, Owner_Name, Status, Room, Section, Shelf, Level, Note );
 

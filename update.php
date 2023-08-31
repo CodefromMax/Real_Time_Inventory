@@ -1,6 +1,7 @@
 <?php  
 date_default_timezone_set('America/Toronto'); 
 session_start(); 
+include("database_connect.php");
 // ##############################  Gather variables for sql  #################################
 // Gather all the variables passed from index.php
 // Action: disp: display; Delete; Update
@@ -32,8 +33,7 @@ if ($Action == "disp" || isset($_GET['search'])){
      <br>
      <?php
 
-     $connect = mysqli_connect("localhost", "root", "twnetwork", "inv");  
-     $output = '';  
+$output = '';  
 
      // sql is defined in the first section based on the variable received
      // $sql = "SELECT * FROM ITM_inventory ORDER BY Item_ID DESC";  
@@ -121,7 +121,6 @@ if ($Action == "disp" || isset($_GET['search'])){
 
 ##############################  Update data  #################################
 if ($Action == "Update"){
-     $connect = mysqli_connect("localhost", "root", "twnetwork", "inv");
      $id = $_POST["id"];
      $Name = $_POST["Name"];
      $Supplier= $_POST["Supplier"];
@@ -148,7 +147,6 @@ if ($Action == "Update"){
 
 ##############################  Delete data  #################################
 if ($Action == "Delete"){
-$connect = mysqli_connect("localhost", "root", "twnetwork", "inv");
 
 $id = $_POST["id"];
 $name = $_POST["name"];
