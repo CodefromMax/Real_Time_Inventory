@@ -6,6 +6,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 
+$_SESSION["Log_close"] = "False";
+
 ?>
 <!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->
 <br>
@@ -35,19 +37,23 @@ $row = mysqli_fetch_array($result);
     <label for="person">User Name: </label><br>
             <select name="person" id="person">
                 <option value="A" <?php if ($row["person"] == 'A') echo 'selected'; ?>>A</option>
-                <option value="B" <?php if ($row["person"] == '') echo 'selected'; ?>>B212122112</option>
-                <option value="C" <?php if ($row["person"] == 'C') echo 'selected'; ?>>C</option>
-                <option value="D" <?php if ($row["person"] == 'D') echo 'selected'; ?>>D</option>
-                <option value="E" <?php if ($row["person"] == 'E') echo 'selected'; ?>>E</option>
-                <option value="F" <?php if ($row["person"] == 'F') echo 'selected'; ?>>F</option>
-                <option value="G" <?php if ($row["person"] == 'G') echo 'selected'; ?>>G</option>
+                <option value="B" <?php if ($row["person"] == 'B') echo 'selected'; ?>>B212122112</option>
+                <option value="C" <?php if ($row["person"] == 'C123') echo 'selected'; ?>>C</option>
+                <option value="D" <?php if ($row["person"] == 'D123') echo 'selected'; ?>>D</option>
+                <option value="E" <?php if ($row["person"] == 'E123') echo 'selected'; ?>>E</option>
+                <option value="F" <?php if ($row["person"] == 'F123') echo 'selected'; ?>>F</option>
+                <option value="G" <?php if ($row["person"] == 'G123') echo 'selected'; ?>>G</option>
             </select>
-        <button onclick="processInput()">Submit</button>
-    </div>
+    
     <br>
-    <label for="person">Note: </label><br>
-        <input type="text" id="note" calss = "form-control" name = "Note" >
+    <br>
+    <label for="note">Note: </label><br>
+        <input type="text" id="note"  name = "note" >
         <br>
+        <br>
+        <button onclick="processInput()" class="btn btn-primary btn-block" >Submit</button>
+        <!-- <button  class="btn btn-danger btn-block" id = "btn_close" >Cancel</button>  calss = "form-control"-->
+    </div>
 </div>
 </div>
 <!-- ########################  Logs  ############################## -->
@@ -107,7 +113,7 @@ function showPopup() {
 function processInput() {
     var userName = document.getElementById('person').value;
     var userNote = document.getElementById('note').value;
-    
+    // console.log(userNote);
     // You can process the input here or send it to a server-side script using AJAX
     <?php 
         // $dom = new DOMDocument('1.0', 'iso-8859-1');
@@ -116,17 +122,31 @@ function processInput() {
         $_SESSION["process_log"] = "log_round_1";
     ?>
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "function/add_log.php",false);
+    xmlhttp.open("POST", "function/temp_log.php",false);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send("person="+userName+"&note"+userNote);
-    document.getElementById("disp_data").innerHTML=xmlhttp.responseText;
+    xmlhttp.send("person="+userName+"&note="+userNote);
+    // document.getElementById("disp_data").innerHTML=xmlhttp.responseText;
     
     // For demonstration purposes, we'll just display the input here
     // alert('User input: ' + userInput);
 
     // Close the pop-up
     document.getElementById('overlay1').style.display = 'none';
+    disp_data()
+
+    
 }
+$(document).on('click', '#btn_close', function(){ 
+    <?php 
+        $_SESSION["Log_close"] = "True";
+    ?>
+    console.log("Hello");
+    alert("The database won't be updated.");
+    document.getElementById('overlay1').style.display = 'none';
+    disp_data();
+    // return ;
+
+})
 
 // function processInput() {
 //     var userInput = document.getElementById('userInput').value;
@@ -343,7 +363,28 @@ function update1(id)
 }
 
 function update_data(id, Name, Supplier, Est_Quantity, Exact_Quantity, Minimum, Boxes, Owner_Name, Status, Room, Section, Shelf, Level, Note ){
+    
+    // problem with print initial variable print_r($_SESSION);
+    // <sphp $_SESSION["Log_close"] = "False"; ?>
+    
     showPopup();
+    // <php session_commit(); ?>
+    // var log_close = '<php echo $_SESSION["Log_close"]; ?>';
+    // console.log(og_close);
+    // if (log_close == 'False'){
+    // console.log('<php echo $_SESSION["Log_close"]; ?>');
+    // xmlhttp = new XMLHttpRequest();
+    // xmlhttp.open("POST", "function/update.php", false);
+    // xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
+    // variable = "id="+id+"&Name="+Name+"&Supplier="+Supplier+"&Est_Quantity="+Est_Quantity+"&Exact_Quantity="+Exact_Quantity+"&Minimum="+Minimum+"&Boxes="+Boxes+"&Owner_Name="+Owner_Name+"&Status="+Status+"&Room="+Room+"&Section="+Section+"&Shelf="+Shelf+"&Level="+Level+"&Note="+Note+"&Action=Update";
+    // xmlhttp.send(variable);
+    // disp_data();
+    // } 
+    // else{
+    //     console.log('<php echo $_SESSION["Log_close"]; ?>');
+    //     <php $_SESSION["Log_close"] = "False"; ?>
+    //     disp_data();
+    // }
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "function/update.php", false);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -354,6 +395,7 @@ function update_data(id, Name, Supplier, Est_Quantity, Exact_Quantity, Minimum, 
 
 // #######################  Delete data ############################
 function delete1(id, name){
+    showPopup();
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("POST", "function/update.php", false);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");

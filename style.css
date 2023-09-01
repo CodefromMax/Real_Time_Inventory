@@ -164,7 +164,7 @@ width: 100%;
 /* Styling for the pop-up */
 .popup {
   background-color: white;
-  padding: 20px;
+  padding: 20px 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }

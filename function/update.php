@@ -149,10 +149,14 @@ if ($Action == "Update"){
      $query = "UPDATE `ITM_Inventory` SET `Item_Name`='$Name',`Supplier`='$Supplier',`Est_Quantity`='$Est_Quantity',`Exact_Quantity`='$Exact_Quantity',`Minimum`='$Minimum',`Boxes`='$Boxes',`Owner_Name`='$Owner_Name',`Status`='$Status',`Room`='$Room',`Section`='$Section',`Shelf`='$Shelf',`Level`='$Level',`Note`='$Note' WHERE `Item_ID` = '$id' ";
      mysqli_query($connect, $query);
 
-     $date = date('Y-m-d h:i a', time());
-     $log_date = date('Y-m-d h:i:s a', time());
-     $query = "INSERT INTO `ITM_Logs`(`date`, `action`) VALUES ('$log_date','Updated ($id , $Name)')";
-     $result = mysqli_query($connect,$query);
+     $_SESSION["log_action"] = "Update";
+     $_SESSION["action_item_id"] = $id;
+     $_SESSION["action_item_name"] = $Name;
+     include("add_log.php");
+     // $date = date('Y-m-d h:i a', time());
+     // $log_date = date('Y-m-d h:i:s a', time());
+     // $query = "INSERT INTO `ITM_Logs`(`date`, `action`) VALUES ('$log_date','Updated ($id , $Name)')";
+     // $result = mysqli_query($connect,$query);
 }
 
 ##############################  Delete data  #################################
@@ -164,9 +168,13 @@ $query = "DELETE FROM `ITM_Inventory` WHERE `Item_ID` = '$id'";
 mysqli_query($connect, $query);
 
 // Record action
-$date = date('Y-m-d h:i a', time());
-$log_date = date('Y-m-d h:i:s a', time());
-$query = "INSERT INTO `ITM_Logs`(`date`, `action`) VALUES ('$log_date','Delete ($id , $name)')";
-$result = mysqli_query($connect,$query);
+// $date = date('Y-m-d h:i a', time());
+// $log_date = date('Y-m-d h:i:s a', time());
+// $query = "INSERT INTO `ITM_Logs`(`date`, `action`) VALUES ('$log_date','Delete ($id , $name)')";
+// $result = mysqli_query($connect,$query);
+$_SESSION["log_action"] = "Delete";
+$_SESSION["action_item_id"] = $id;
+$_SESSION["action_item_name"] = $name;
+include("add_log.php");
 }
 ?>
