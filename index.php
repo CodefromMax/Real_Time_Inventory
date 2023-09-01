@@ -1,34 +1,55 @@
 <?php 
 include("header.php"); 
+include("function/database_connect.php");
 date_default_timezone_set('America/Toronto'); 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
+
 ?>
-
-<!-- <button class="open-button" onclick="openForm()">Open Form</button> -->
-
-<div class="form" id="myForm" style = "display: none;">
-  <form action="/action_page.php" class="form-container">
-    <h1>User Log</h1>
-
-    <label><b>Name</b></label>
-    <input type="text" placeholder="" name="name" required>
-
-    <label ><b>Note</b></label>
-    <input type="text" placeholder="Enter Note" name="note" required>
-
-    <button type="submit" class="btn">Login</button>
-    <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-  </form>
-</div>
-<!-- ########################  Search bar  ############################## -->
+<!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->
+<br>
+<div>
 <form action="" method="GET">
-    <div id = "searchbar" class="input-group mb-3" style="width: 95%;padding: 50px;height:30px;">
-        <input type="text" name="search" value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-control" placeholder="Search Inventory" >
+    <div id = "searchbar" class="form-group"  align = "center" style="width: 100%;height:50px;">
+        <input type="text" name="search"  style="width: 85%;height:85%; text-align:center; border: 1px solid #555;" value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-group" placeholder="Search Inventory" >
+        <!-- </div> -->
         <button type="submit" class="btn btn-primary btn-block" id = "btn_search" >Search</button>
         <!-- Note: No requirement (required) for filling in the bar: easy to get all item. -->
     </div>
 </form>
+</div>
 
+<?php
+// Get the last user from Logs. (Use it as a default person for the current action)
+$sql = "SELECT * FROM `ITM_Logs` WHERE `id` = (SELECT MAX(`id`) FROM ITM_Logs)";
+$result = mysqli_query($connect, $sql);  
+$row = mysqli_fetch_array($result);
+// echo $row["person"];
+?>
+<div>
+
+<button onclick="showPopup()">Open Pop-up</button>
+<div class="overlay1" id="overlay1">
+    <div class="popup">
+    <label for="person">User Name: </label><br>
+            <select name="person" id="person">
+                <option value="A" <?php if ($row["person"] == 'A') echo 'selected'; ?>>A</option>
+                <option value="B" <?php if ($row["person"] == '') echo 'selected'; ?>>B212122112</option>
+                <option value="C" <?php if ($row["person"] == 'C') echo 'selected'; ?>>C</option>
+                <option value="D" <?php if ($row["person"] == 'D') echo 'selected'; ?>>D</option>
+                <option value="E" <?php if ($row["person"] == 'E') echo 'selected'; ?>>E</option>
+                <option value="F" <?php if ($row["person"] == 'F') echo 'selected'; ?>>F</option>
+                <option value="G" <?php if ($row["person"] == 'G') echo 'selected'; ?>>G</option>
+            </select>
+        <button onclick="processInput()">Submit</button>
+    </div>
+    <br>
+    <label for="person">Note: </label><br>
+        <input type="text" id="note" calss = "form-control" name = "Note" >
+        <br>
+</div>
+</div>
 <!-- ########################  Logs  ############################## -->
 <div id = "logs" style="padding-left: 50px;" >
     <a href = "log_page.php">
@@ -46,18 +67,21 @@ session_start();
 
 <?php
 // Store variable
-$_SESSION["search"] = $_GET['search']; 
-$_SESSION["notify"] = $_GET['notify']; ?>
+if(isset($_GET['search'])){
+$_SESSION["search"] = $_GET['search'];}
+if(isset($_GET['notify'])){
+$_SESSION["notify"] = $_GET['notify'];}
+ ?>
 
 <!-- ########################  Create CSV  ############################## -->
 
 <div id = "export">
-    <form method="post" action="ITM_export.php" style = "text-align:center;height: 7vh;">  
+    <form method="post" action="function/ITM_export.php" style = "text-align:center;height: 7vh;">  
         <input type="submit" name="export" value="Export Inventory Database" class="btn btn-success" />  
     </form>
 </div>
 
-<form action="send_email.php" method="GET" enctype="multipart/form-data"  style = "text-align:center; ">
+<form action="function/send_email.php" method="GET" enctype="multipart/form-data"  style = "text-align:center; ">
         <label for="recipient">Recipient Email:</label>
         <input type="email" name="recipient" value = "zhaoqi.wang@toronto.ca" required>
         <button type="submit" name="submit">Send</button>
@@ -65,7 +89,9 @@ $_SESSION["notify"] = $_GET['notify']; ?>
 
 <?php
 // Store variable
-$_SESSION["recipient"] = $_GET['recipient']; 
+if(isset($_GET['recipient'])){
+$_SESSION["recipient"] = $_GET['recipient']; }
+
 ?>
 
 <!-- <script src="tablesort.js"></script> -->
@@ -73,6 +99,59 @@ $_SESSION["recipient"] = $_GET['recipient'];
 <div id = "disp_data"></div>
 
 <script>
+
+function showPopup() {
+    document.getElementById('overlay1').style.display = 'flex';
+}
+
+function processInput() {
+    var userName = document.getElementById('person').value;
+    var userNote = document.getElementById('note').value;
+    
+    // You can process the input here or send it to a server-side script using AJAX
+    <?php 
+        // $dom = new DOMDocument('1.0', 'iso-8859-1');
+        // $tagcontent = getElementById('person');
+        // echo $tagcontent;
+        $_SESSION["process_log"] = "log_round_1";
+    ?>
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "function/add_log.php",false);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send("person="+userName+"&note"+userNote);
+    document.getElementById("disp_data").innerHTML=xmlhttp.responseText;
+    
+    // For demonstration purposes, we'll just display the input here
+    // alert('User input: ' + userInput);
+
+    // Close the pop-up
+    document.getElementById('overlay1').style.display = 'none';
+}
+
+// function processInput() {
+//     var userInput = document.getElementById('userInput').value;
+    
+//     // You can use AJAX to send the userInput to the server-side PHP script if needed
+//     // Example AJAX code:
+//     /*
+//     var xhr = new XMLHttpRequest();
+//     xhr.open('POST', 'process.php', true);
+//     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+//     xhr.onreadystatechange = function() {
+//         if (xhr.readyState === 4 && xhr.status === 200) {
+//             // Handle the response from the PHP script
+//             console.log(xhr.responseText);
+//         }
+//     };
+//     xhr.send('userInput=' + userInput);
+//     */
+    
+//     // For demonstration purposes, we'll just display the input here
+//     alert('User input: ' + userInput);
+    
+//     // Close the pop-up
+//     document.getElementById('popup').style.display = 'none';
+// }
 
 // $("#form").submit( function(eventObj) {
 //       $("<input />").attr("type", "hidden")
@@ -82,14 +161,6 @@ $_SESSION["recipient"] = $_GET['recipient'];
 //       return true;
 //   });
 
-
-function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
 
 // ############################### Insert data ##########################
 // If Add button is pressed
@@ -130,10 +201,10 @@ $(document).on('click', '#btn_add', function(){
     function isEmpty(value) {
         return value.trim() === '';
     }
-    openForm()
+
     // Ready to insert variable 
     $.ajax({  
-        url:"insert.php",  
+        url:"function/insert.php",  
         method:"POST",  
         data:{
             Item_Name: Item_Name,
@@ -162,7 +233,7 @@ $(document).on('click', '#btn_add', function(){
 
 function disp_data(){
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "update.php",false);
+    xmlhttp.open("POST", "function/update.php",false);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send("Action=disp");
     document.getElementById("disp_data").innerHTML=xmlhttp.responseText;
@@ -239,9 +310,9 @@ function update1(id)
     var Level = document.getElementById(Level_id).value;
 
     var Note_id = "txtNote"+id;
-    var Note =document.getElementById(Note_id).value;
-    openForm()
-    // update_data(id, Name);
+    var Note =document.getElementById(Note_id).value;    
+             
+          
     update_data(id, Name, Supplier, Est_Quantity, Exact_Quantity, Minimum, Boxes, Owner_Name, Status, Room, Section, Shelf, Level, Note );
 
     document.getElementById("Name"+id).innerHTML= Name;
@@ -272,9 +343,9 @@ function update1(id)
 }
 
 function update_data(id, Name, Supplier, Est_Quantity, Exact_Quantity, Minimum, Boxes, Owner_Name, Status, Room, Section, Shelf, Level, Note ){
-    
+    showPopup();
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "update.php", false);
+    xmlhttp.open("POST", "function/update.php", false);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
     variable = "id="+id+"&Name="+Name+"&Supplier="+Supplier+"&Est_Quantity="+Est_Quantity+"&Exact_Quantity="+Exact_Quantity+"&Minimum="+Minimum+"&Boxes="+Boxes+"&Owner_Name="+Owner_Name+"&Status="+Status+"&Room="+Room+"&Section="+Section+"&Shelf="+Shelf+"&Level="+Level+"&Note="+Note+"&Action=Update";
     xmlhttp.send(variable);
@@ -284,7 +355,7 @@ function update_data(id, Name, Supplier, Est_Quantity, Exact_Quantity, Minimum, 
 // #######################  Delete data ############################
 function delete1(id, name){
     xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "update.php", false);
+    xmlhttp.open("POST", "function/update.php", false);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
     variable = "id="+id+"&name="+name+"&Action=Delete";
     xmlhttp.send(variable);

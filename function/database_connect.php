@@ -12,6 +12,6 @@ if(!$connect) {
 }
 
 else {
-
-    //  echo "connected";
+    
+    // echo "connected";
 }

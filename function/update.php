@@ -1,8 +1,15 @@
 <?php  
+
+
 date_default_timezone_set('America/Toronto'); 
 session_start(); 
 include("database_connect.php");
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$_SESSION["process_log"] = "log_round_2";
 // ##############################  Gather variables for sql  #################################
+
 // Gather all the variables passed from index.php
 // Action: disp: display; Delete; Update
 $Action = $_POST["Action"];
@@ -13,6 +20,8 @@ if($_SESSION["search"] != ""){
      $val = $_SESSION["search"];
      $sql = "SELECT * FROM `ITM_Inventory` WHERE CONCAT(`Item_Name`,`Supplier`,`Status`) LIKE '%$val%' ORDER BY `Item_ID` DESC ";
      // echo $sql;
+     // To empty the variable
+     $_SESSION["search"] = "";
 }
 
 else{
@@ -25,6 +34,7 @@ if($_SESSION["notify"] != ""){
      // get all the items that (Est_Quantity < Minimum) cast as INTEGER is a function to change string to integer
      $sql = "SELECT * FROM `ITM_Inventory` WHERE (CAST(`Est_Quantity` AS SIGNED) < CAST(`Minimum` AS SIGNED)) ORDER BY `Item_ID` ASC";
      // echo $sql;
+     $_SESSION["notify"] = "";
 }
 
 //##############################  Display data  #################################

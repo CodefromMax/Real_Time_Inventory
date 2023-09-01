@@ -1,7 +1,7 @@
 <?php
 
 include("header.php");
-include("database_connect.php");
+include("function/database_connect.php");
 session_start();
 if(isset($_GET['recipient'])){
    $Recipient = $_GET['recipient'];
@@ -28,7 +28,7 @@ $output = '';
 
 //CSV
 
-$output = fopen("C:\website\Compliance\inventory_applcation\ITM2\ITM_inventory_database.csv", "w");  
+$output = fopen("C:\website\Compliance\inventory_applcation\ITM2\downloaded_database\ITM_inventory_database.csv", "w");  
 fputcsv($output, array('Item_ID', 'Item_Name', 'Supplier', 'Est_Quantity','Exact_Quantity', 'Minimum', 'Boxes', 'Owner_Name', 'Status',
 'Room', 'Section', 'Shelf', 'Level', 'Note'));  
 $result = mysqli_query($connect,$sql);
@@ -48,7 +48,7 @@ $result1 = mysqli_query($connect,"SELECT * FROM `ITM_Inventory` WHERE (CAST(`Est
 $rows1 = mysqli_num_rows($result1);
 
 if ($rows1>0){
-$output = fopen("C:\website\Compliance\inventory_applcation\ITM2\ITM_below_minimum_list.csv", "w");  
+$output = fopen("C:\website\Compliance\inventory_applcation\ITM2\downloaded_database\ITM_below_minimum_list.csv", "w");  
 fputcsv($output, array('Item_ID', 'Item_Name', 'Supplier', 'Est_Quantity','Exact_Quantity', 'Minimum', 'Boxes', 'Owner_Name', 'Status',
 'Room', 'Section', 'Shelf', 'Level', 'Note'));  
 
@@ -69,9 +69,9 @@ $mailto = $Recipient;
 //Email subject
 $subject = "Monthly ITM Inventory Updates";
 //Read the content of the file
-$filename = 'ITM_inventory_database.csv';
+$filename = '\downloaded_database\ITM_inventory_database.csv';
 
-$file = 'ITM_inventory_database.csv';
+$file = '\downloaded_database\ITM_inventory_database.csv';
 $content = file_get_contents( $file);
 $content = chunk_split(base64_encode($content));
 $uid = md5(uniqid(time()));
@@ -108,7 +108,7 @@ if ($rows1>0){
 
 $nmessage .= "--".$uid."\r\n";
 
-$filename2 = 'ITM_below_minimum_list.csv';
+$filename2 = '\downloaded_database\ITM_below_minimum_list.csv';
 
 $fileContent2 = file_get_contents($filename2);
 $nmessage .= "Content-Type: application/octet-stream; name=\"" . basename($filename2) . "\"" . "\r\n";
