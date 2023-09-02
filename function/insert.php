@@ -6,11 +6,11 @@ if(mysqli_query($connect, $sql)){
 echo 'Data Inserted';
 }
 
+// Store it in the log database
 $Item = $_POST["Item_Name"];
 $_SESSION["log_action"] = "Added";
 $_SESSION["action_item_id"] = "Auto Generated";
 $_SESSION["action_item_name"] = $Item;
 include("add_log.php");
-
 
 ?>

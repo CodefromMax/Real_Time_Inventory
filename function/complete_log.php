@@ -10,7 +10,6 @@ $person = $_POST["person"];
 $note = $_POST["note"];
 
 // Note: 
-
 // A new log without person and note was created after doing update, insert or delete  (Only id, action, name)
 // We updating person and note to the created log here, instead of providing them initially
 
