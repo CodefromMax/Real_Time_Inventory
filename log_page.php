@@ -32,7 +32,7 @@ ini_set('display_errors', 1);
             </tr> 
         </thead>
     <tbody>
-
+        
 <?php
 // HTML for table header
 if(!isset($_GET['search_logs'])){
@@ -46,11 +46,9 @@ else{
     $val = $_GET['search_logs'];
     $query = "SELECT * FROM `ITM_Logs` WHERE CONCAT(`date`,`action`) LIKE '%$val%' ";
 }
-// echo "h";
-// echo $connect;
+
 $result = mysqli_query($connect,$query);
-// echo $result;
-// echo "h";
+
 // check if the connection works
 if(!$result){
     die("query Failed".mysqli_error($connect));
@@ -78,7 +76,7 @@ else{
     else{
         ?>
         <tr>
-        <td colspan="2">No Record Found</td>
+        <td colspan="4">No Record Found</td>
         </tr>
         <?php
     }

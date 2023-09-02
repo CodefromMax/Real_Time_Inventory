@@ -1,7 +1,7 @@
 <?php
 
 include("header.php");
-include("function/database_connect.php");
+include("database_connect.php");
 session_start();
 if(isset($_GET['recipient'])){
    $Recipient = $_GET['recipient'];
@@ -48,22 +48,18 @@ $result1 = mysqli_query($connect,"SELECT * FROM `ITM_Inventory` WHERE (CAST(`Est
 $rows1 = mysqli_num_rows($result1);
 
 if ($rows1>0){
-$output = fopen("C:\website\Compliance\inventory_applcation\ITM2\downloaded_database\ITM_below_minimum_list.csv", "w");  
-fputcsv($output, array('Item_ID', 'Item_Name', 'Supplier', 'Est_Quantity','Exact_Quantity', 'Minimum', 'Boxes', 'Owner_Name', 'Status',
-'Room', 'Section', 'Shelf', 'Level', 'Note'));  
+   $output = fopen("C:\website\Compliance\inventory_applcation\ITM2\downloaded_database\ITM_below_minimum_list.csv", "w");  
+   fputcsv($output, array('Item_ID', 'Item_Name', 'Supplier', 'Est_Quantity','Exact_Quantity', 'Minimum', 'Boxes', 'Owner_Name', 'Status',
+   'Room', 'Section', 'Shelf', 'Level', 'Note'));  
 
-while($row = mysqli_fetch_assoc($result1))  
-{  
-    fputcsv($output, $row);  
-}  
+   while($row = mysqli_fetch_assoc($result1))  
+   {  
+      fputcsv($output, $row);  
+   }  
 
-fclose($output);  
+   fclose($output);  
 
 }
-
-
-
-
 
 $mailto = $Recipient;
 //Email subject
@@ -102,8 +98,6 @@ $nmessage .= "Content-Transfer-Encoding: base64\r\n";
 $nmessage .= "Content-Disposition: attachment; filename=\"".$file_name."\"\r\n\r\n";
 $nmessage .= $content."\r\n\r\n";
 
-
-
 if ($rows1>0){
 
 $nmessage .= "--".$uid."\r\n";
@@ -123,8 +117,6 @@ $nmessage .= "--".$uid."--";
 else{
    $nmessage .= "--".$uid."--";
 }
-
-
 
 if (mail($mailto, $subject, $nmessage, $header)) {
    echo "Email sent successfully.";}

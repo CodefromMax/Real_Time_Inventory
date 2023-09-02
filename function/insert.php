@@ -6,12 +6,11 @@ if(mysqli_query($connect, $sql)){
 echo 'Data Inserted';
 }
 
-
-$date = date('Y-m-d h:i a', time());
-$log_date = date('Y-m-d h:i:s a', time());
 $Item = $_POST["Item_Name"];
-$query = "INSERT INTO `ITM_Logs`(`date`, `action`) VALUES ('$log_date','Added ($Item)')";
-$result = mysqli_query($connect,$query);
+$_SESSION["log_action"] = "Added";
+$_SESSION["action_item_id"] = "Auto Generated";
+$_SESSION["action_item_name"] = $Item;
+include("add_log.php");
 
 
 ?>

@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
 
-$_SESSION["Log_close"] = "False";
+// $_SESSION["Log_close"] = "False";
 
 ?>
 <!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->
@@ -29,33 +29,37 @@ $result = mysqli_query($connect, $sql);
 $row = mysqli_fetch_array($result);
 // echo $row["person"];
 ?>
-<div>
 
-<button onclick="showPopup()">Open Pop-up</button>
+
+<!-- <button onclick="showPopup()">Open Pop-up</button> -->
 <div class="overlay1" id="overlay1">
     <div class="popup">
-    <label for="person">User Name: </label><br>
-            <select name="person" id="person">
-                <option value="A" <?php if ($row["person"] == 'A') echo 'selected'; ?>>A</option>
-                <option value="B" <?php if ($row["person"] == 'B') echo 'selected'; ?>>B212122112</option>
-                <option value="C" <?php if ($row["person"] == 'C123') echo 'selected'; ?>>C</option>
-                <option value="D" <?php if ($row["person"] == 'D123') echo 'selected'; ?>>D</option>
-                <option value="E" <?php if ($row["person"] == 'E123') echo 'selected'; ?>>E</option>
-                <option value="F" <?php if ($row["person"] == 'F123') echo 'selected'; ?>>F</option>
-                <option value="G" <?php if ($row["person"] == 'G123') echo 'selected'; ?>>G</option>
-            </select>
-    
-    <br>
-    <br>
-    <label for="note">Note: </label><br>
-        <input type="text" id="note"  name = "note" >
+        <label for="person">User Name: </label><br>
+        <select name="person" id="person">
+            <option value="A" <?php if ($row["person"] == 'A') echo 'selected'; ?>>A</option>
+            <option value="B" <?php if ($row["person"] == 'B') echo 'selected'; ?>>B212122112</option>
+            <option value="C" <?php if ($row["person"] == 'C123') echo 'selected'; ?>>C</option>
+            <option value="D" <?php if ($row["person"] == 'D123') echo 'selected'; ?>>D</option>
+            <option value="E" <?php if ($row["person"] == 'E123') echo 'selected'; ?>>E</option>
+            <option value="F" <?php if ($row["person"] == 'F123') echo 'selected'; ?>>F</option>
+            <option value="Not_Here">Not Here</option>
+        </select>
+        <br>
+        <br>    
+        <label for="person1">If your name is not in the database: </label>
+        <br>
+        <input type="text" id="person1"  name = "person1" palceholder = "Please enter your name." >
         <br>
         <br>
-        <button onclick="processInput()" class="btn btn-primary btn-block" >Submit</button>
+        <label for="note1">Note: </label><br>
+        <input type="text" id="note1"  name = "note1" >
+        <br>
+        <br>
+        <button onclick="processInput()" class="btn btn-primary btn-block" id = "process_input">Submit</button>
         <!-- <button  class="btn btn-danger btn-block" id = "btn_close" >Cancel</button>  calss = "form-control"-->
     </div>
 </div>
-</div>
+
 <!-- ########################  Logs  ############################## -->
 <div id = "logs" style="padding-left: 50px;" >
     <a href = "log_page.php">
@@ -74,9 +78,12 @@ $row = mysqli_fetch_array($result);
 <?php
 // Store variable
 if(isset($_GET['search'])){
-$_SESSION["search"] = $_GET['search'];}
+    $_SESSION["search"] = $_GET['search'];
+}
+
 if(isset($_GET['notify'])){
-$_SESSION["notify"] = $_GET['notify'];}
+    $_SESSION["notify"] = $_GET['notify'];
+}
  ?>
 
 <!-- ########################  Create CSV  ############################## -->
@@ -100,7 +107,6 @@ $_SESSION["recipient"] = $_GET['recipient']; }
 
 ?>
 
-<!-- <script src="tablesort.js"></script> -->
 <!-- Placeholder -->
 <div id = "disp_data"></div>
 
@@ -111,31 +117,25 @@ function showPopup() {
 }
 
 function processInput() {
+
+    // return new Promise((resolve, reject) => {
     var userName = document.getElementById('person').value;
-    var userNote = document.getElementById('note').value;
-    // console.log(userNote);
+    var userNote = document.getElementById('note1').value;
+    if (userName == "Not_Here" ){
+        userName = document.getElementById('person1').value;
+    }
+
     // You can process the input here or send it to a server-side script using AJAX
-    <?php 
-        // $dom = new DOMDocument('1.0', 'iso-8859-1');
-        // $tagcontent = getElementById('person');
-        // echo $tagcontent;
-        $_SESSION["process_log"] = "log_round_1";
-    ?>
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "function/temp_log.php",false);
+    xmlhttp.open("POST", "function/complete_log.php",false);
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xmlhttp.send("person="+userName+"&note="+userNote);
-    // document.getElementById("disp_data").innerHTML=xmlhttp.responseText;
-    
-    // For demonstration purposes, we'll just display the input here
-    // alert('User input: ' + userInput);
 
     // Close the pop-up
     document.getElementById('overlay1').style.display = 'none';
-    disp_data()
 
-    
 }
+
 $(document).on('click', '#btn_close', function(){ 
     <?php 
         $_SESSION["Log_close"] = "True";
@@ -144,43 +144,8 @@ $(document).on('click', '#btn_close', function(){
     alert("The database won't be updated.");
     document.getElementById('overlay1').style.display = 'none';
     disp_data();
-    // return ;
 
 })
-
-// function processInput() {
-//     var userInput = document.getElementById('userInput').value;
-    
-//     // You can use AJAX to send the userInput to the server-side PHP script if needed
-//     // Example AJAX code:
-//     /*
-//     var xhr = new XMLHttpRequest();
-//     xhr.open('POST', 'process.php', true);
-//     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-//     xhr.onreadystatechange = function() {
-//         if (xhr.readyState === 4 && xhr.status === 200) {
-//             // Handle the response from the PHP script
-//             console.log(xhr.responseText);
-//         }
-//     };
-//     xhr.send('userInput=' + userInput);
-//     */
-    
-//     // For demonstration purposes, we'll just display the input here
-//     alert('User input: ' + userInput);
-    
-//     // Close the pop-up
-//     document.getElementById('popup').style.display = 'none';
-// }
-
-// $("#form").submit( function(eventObj) {
-//       $("<input />").attr("type", "hidden")
-//           .attr("name", "something")
-//           .attr("value", "something")
-//           .appendTo("#form");
-//       return true;
-//   });
-
 
 // ############################### Insert data ##########################
 // If Add button is pressed
@@ -203,25 +168,27 @@ $(document).on('click', '#btn_add', function(){
 
     // Check for empty input
     check_list = [Item_Name,Status,Room,Section,Shelf,Level];
-    
+    var checked = false;
     check_list_string = ["Item Name","Status","Room","Section","Shelf","Level"];
     for (var i = 0; i < check_list.length; i++) {
         var field = check_list[i];
 
         if (isEmpty(field)) {
-            alert(check_list_string[i] + " is empty.");
+            alert(check_list_string[i] + " is empty. (please enter / for unused attributes.)");
+            checked = false;
             break; 
         }
+        checked = true;
     }
 
     if (isEmpty(Est_Quantity) && isEmpty(Exact_Quantity)){
         alert("Please enter the qunatity in Estimate or in Exact Quantity.");
     }
-    
-    function isEmpty(value) {
-        return value.trim() === '';
-    }
 
+    
+    if ((isEmpty(Est_Quantity) && isEmpty(Exact_Quantity))== false && checked == true){
+        showPopup();
+    // }
     // Ready to insert variable 
     $.ajax({  
         url:"function/insert.php",  
@@ -243,11 +210,16 @@ $(document).on('click', '#btn_add', function(){
         },  
         dataType:"text",  
         success:function(data){  
-            alert(data);  
+            // alert(data);  
             disp_data();  
         }  
-    })  
+    });
+}
 }); 
+
+function isEmpty(value) {
+        return value.trim() === '';
+    }
 
 // #####################  Display data ###########################
 
@@ -268,7 +240,8 @@ function inner_edit(id,Column){
         replace_id = Column+id;
         txt_replace_id = "txt"+Column+id;
         var replace_input =document.getElementById(replace_id).innerHTML;
-        document.getElementById(replace_id).innerHTML="<input type = 'text' value='"+replace_input+"' id ='"+txt_replace_id+"' size = '9'>";
+        document.getElementById(replace_id).innerHTML="<input type = 'text' value='"+replace_input+"' id ='"+txt_replace_id+"' style = 'width: 100%;' >";
+        // size = '9'
 }
 
 function edit1(id){
@@ -390,6 +363,7 @@ function update_data(id, Name, Supplier, Est_Quantity, Exact_Quantity, Minimum, 
     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded; charset=UTF-8");
     variable = "id="+id+"&Name="+Name+"&Supplier="+Supplier+"&Est_Quantity="+Est_Quantity+"&Exact_Quantity="+Exact_Quantity+"&Minimum="+Minimum+"&Boxes="+Boxes+"&Owner_Name="+Owner_Name+"&Status="+Status+"&Room="+Room+"&Section="+Section+"&Shelf="+Shelf+"&Level="+Level+"&Note="+Note+"&Action=Update";
     xmlhttp.send(variable);
+    document.getElementById("disp_data").innerHTML=xmlhttp.responseText;
     disp_data();
 }
 
