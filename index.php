@@ -3,7 +3,7 @@ include("header.php");
 include("function/database_connect.php");
 date_default_timezone_set('America/Toronto'); 
 // include("Mobile-Detect/src/MobileDetect.php");
-include("check_mobile.php");
+include("function/check_mobile.php");
 // echo is_mobile();
 // error_reporting(E_ALL);
 // ini_set('display_errors', 1);
@@ -99,7 +99,7 @@ if(isset($_GET['notify'])){
 <!-- ########################  Create CSV  ############################## -->
 
 <div id = "export">
-    <form method="post" action="ITM_export.php" style = "text-align:center;height: 7vh;">  
+    <form method="post" action="function/ITM_export.php" style = "text-align:center;height: 7vh;">  
         <input type="submit" name="export" value="Export Inventory Database" class="btn btn-success" />  
     </form>
 </div>

@@ -1,6 +1,5 @@
 <?php
 
-include("header.php");
 include("database_connect.php");
 session_start();
 if(isset($_GET['recipient'])){
@@ -37,8 +36,8 @@ $result = mysqli_query($connect,$sql);
 
 //Write each row into csv
 while($row = mysqli_fetch_assoc($result))  
-{  
-    fputcsv($output, $row);  
+{
+   fputcsv($output, $row);  
 }  
 
 fclose($output);  
@@ -66,13 +65,13 @@ $mailto = $Recipient;
 $subject = "Monthly ITM Inventory Updates";
 //Read the content of the file
 $filename = 'ITM_inventory_database.csv';
-
+// \downloaded_database\
+chdir("C:\website\Compliance\inventory_applcation\ITM2\downloaded_database");
 $file = 'ITM_inventory_database.csv';
 $content = file_get_contents( $file);
 $content = chunk_split(base64_encode($content));
 $uid = md5(uniqid(time()));
 $file_name = basename($file);
-chdir("C:\website\Compliance\inventory_applcation\ITM2\downloaded_database");
 
 if ($rows1>0){
    $message = "Dear ITM Team, \r\n\r\n Please find attached the updated inventory database and the reordering list. \r\n\r\n Online Database link: https://ytfvpnmna02.twnet.toronto.ca/Compliance/Inventory_Applcation/ITM2/index.php\r\n\r\n Thank you.";
@@ -120,7 +119,12 @@ else{
 }
 
 if (mail($mailto, $subject, $nmessage, $header)) {
-   echo "Email sent successfully.";}
+   
+   echo ' <a href= "../index.php">
+   <h1 id = "main_title">Go back to ITM Inventory Database</h1>
+</a>';
+   
+   echo "<h1>Email sent successfully.</h1>";}
    else{
       echo "Unable to send the email.";}
 

@@ -1,29 +1,22 @@
 <?php  
 session_start(); 
 include("database_connect.php");
-$sql = "";
-echo "1";
-echo $_SESSION["notify"];
+
 if($_SESSION["search"] != ""){
     // Note: using the SELECT query style `table` #Order by Shelf is used in downloading the data
     $val = $_SESSION["search"];
     $sql = "SELECT * FROM `ITM_Inventory` WHERE CONCAT(`Item_Name`,`Supplier`,`Status`) LIKE '%$val%' ORDER BY `Item_ID` ASC ";
-    echo $sql;
-    echo $_SESSION["search"];
+    
 }
 
 else{
     $sql = "SELECT * FROM `ITM_Inventory` ORDER BY Item_ID DESC";
-    echo $sql;
 }
 
 if($_SESSION["notify"] != ""){
     // get all the items that (Est_Quantity < Minimum) cast as INTEGER is a function to change string to integer
     $sql = "SELECT * FROM `ITM_Inventory` WHERE (CAST(`Est_Quantity` AS SIGNED) < CAST(`Minimum` AS SIGNED)) ORDER BY `Item_ID` ASC ";
-    echo $sql;
-    echo $_SESSION["notify"];
 }
-
 
 $output = '';  
 //  $sql = "SELECT * FROM ITM_inventory ORDER BY Item_ID ASC";  
@@ -37,20 +30,20 @@ $output = '';
 
 
 //CSV
-// header('Content-Type: text/csv; charset=utf-8');  
-// header('Content-Disposition: attachment; filename=inventory_database.csv');  
-// $output = fopen("php://output", "w");  
-// fputcsv($output, array('Item_ID', 'Item_Name', 'Supplier', 'Est_Quantity','Exact_Quantity', 'Minimum', 'Boxes', 'Owner_Name', 'Status',
-// 'Room', 'Section', 'Shelf', 'Level', 'Note'));  
-// $result = mysqli_query($connect,$sql);
+header('Content-Type: text/csv; charset=utf-8');  
+header('Content-Disposition: attachment; filename=inventory_database.csv');  
+$output = fopen("php://output", "w");  
+fputcsv($output, array('Item_ID', 'Item_Name', 'Supplier', 'Est_Quantity','Exact_Quantity', 'Minimum', 'Boxes', 'Owner_Name', 'Status',
+'Room', 'Section', 'Shelf', 'Level', 'Note'));  
+$result = mysqli_query($connect,$sql);
 
-// //Write each row into csv
-// while($row = mysqli_fetch_assoc($result))  
-// {  
-//     fputcsv($output, $row);  
-// }  
+//Write each row into csv
+while($row = mysqli_fetch_assoc($result))  
+{  
+    fputcsv($output, $row);  
+}  
 
-// fclose($output);  
+fclose($output);  
 
 
 //Debug Note: 
