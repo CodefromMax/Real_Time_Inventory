@@ -2,8 +2,11 @@
 include("header.php"); 
 include("function/database_connect.php");
 date_default_timezone_set('America/Toronto'); 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// include("Mobile-Detect/src/MobileDetect.php");
+include("check_mobile.php");
+// echo is_mobile();
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 session_start();
 
 // $_SESSION["Log_close"] = "False";
@@ -77,19 +80,26 @@ $row = mysqli_fetch_array($result);
 
 <?php
 // Store variable
+$_SESSION["search"] = "";
 if(isset($_GET['search'])){
     $_SESSION["search"] = $_GET['search'];
 }
 
+$_SESSION["notify"]="";
 if(isset($_GET['notify'])){
     $_SESSION["notify"] = $_GET['notify'];
 }
  ?>
 
+<!-- <?php
+// Store variable
+// $_SESSION["search"] = $_GET['search']; 
+// $_SESSION["notify"] = $_GET['notify']; ?> -->
+
 <!-- ########################  Create CSV  ############################## -->
 
 <div id = "export">
-    <form method="post" action="function/ITM_export.php" style = "text-align:center;height: 7vh;">  
+    <form method="post" action="ITM_export.php" style = "text-align:center;height: 7vh;">  
         <input type="submit" name="export" value="Export Inventory Database" class="btn btn-success" />  
     </form>
 </div>
@@ -116,25 +126,25 @@ function showPopup() {
     document.getElementById('overlay1').style.display = 'flex';
 }
 
-function processInput() {
+// function processInput() {
 
-    // return new Promise((resolve, reject) => {
-    var userName = document.getElementById('person').value;
-    var userNote = document.getElementById('note1').value;
-    if (userName == "Not_Here" ){
-        userName = document.getElementById('person1').value;
-    }
+//     // return new Promise((resolve, reject) => {
+//     var userName = document.getElementById('person').value;
+//     var userNote = document.getElementById('note1').value;
+//     if (userName == "Not_Here" ){
+//         userName = document.getElementById('person1').value;
+//     }
 
-    // You can process the input here or send it to a server-side script using AJAX
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("POST", "function/complete_log.php",false);
-    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xmlhttp.send("person="+userName+"&note="+userNote);
+//     // You can process the input here or send it to a server-side script using AJAX
+//     var xmlhttp = new XMLHttpRequest();
+//     xmlhttp.open("POST", "function/complete_log.php",false);
+//     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+//     xmlhttp.send("person="+userName+"&note="+userNote);
 
-    // Close the pop-up
-    document.getElementById('overlay1').style.display = 'none';
+//     // Close the pop-up
+//     document.getElementById('overlay1').style.display = 'none';
 
-}
+// }
 
 $(document).on('click', '#btn_close', function(){ 
     <?php 

@@ -65,13 +65,14 @@ $mailto = $Recipient;
 //Email subject
 $subject = "Monthly ITM Inventory Updates";
 //Read the content of the file
-$filename = '\downloaded_database\ITM_inventory_database.csv';
+$filename = 'ITM_inventory_database.csv';
 
-$file = '\downloaded_database\ITM_inventory_database.csv';
+$file = 'ITM_inventory_database.csv';
 $content = file_get_contents( $file);
 $content = chunk_split(base64_encode($content));
 $uid = md5(uniqid(time()));
 $file_name = basename($file);
+chdir("C:\website\Compliance\inventory_applcation\ITM2\downloaded_database");
 
 if ($rows1>0){
    $message = "Dear ITM Team, \r\n\r\n Please find attached the updated inventory database and the reordering list. \r\n\r\n Online Database link: https://ytfvpnmna02.twnet.toronto.ca/Compliance/Inventory_Applcation/ITM2/index.php\r\n\r\n Thank you.";
@@ -102,7 +103,7 @@ if ($rows1>0){
 
 $nmessage .= "--".$uid."\r\n";
 
-$filename2 = '\downloaded_database\ITM_below_minimum_list.csv';
+$filename2 = 'ITM_below_minimum_list.csv';
 
 $fileContent2 = file_get_contents($filename2);
 $nmessage .= "Content-Type: application/octet-stream; name=\"" . basename($filename2) . "\"" . "\r\n";

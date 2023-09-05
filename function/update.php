@@ -18,7 +18,7 @@ if($_SESSION["search"] != ""){
      $sql = "SELECT * FROM `ITM_Inventory` WHERE CONCAT(`Item_Name`,`Supplier`,`Status`) LIKE '%$val%' ORDER BY `Item_ID` DESC ";
      // echo $sql;
      // To empty the variable
-     $_SESSION["search"] = "";
+     // $_SESSION["search"] = "";
 }
 
 else{
@@ -31,7 +31,7 @@ if($_SESSION["notify"] != ""){
      // get all the items that (Est_Quantity < Minimum) cast as INTEGER is a function to change string to integer
      $sql = "SELECT * FROM `ITM_Inventory` WHERE (CAST(`Est_Quantity` AS SIGNED) < CAST(`Minimum` AS SIGNED)) ORDER BY `Item_ID` ASC";
      // echo $sql;
-     $_SESSION["notify"] = "";
+     // $_SESSION["notify"] = "";
 }
 
 //##############################  Display data  #################################
