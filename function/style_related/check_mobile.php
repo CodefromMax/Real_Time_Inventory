@@ -251,10 +251,10 @@ $patternMobile = '/' . implode('|', $escapedUaMobile) . '/i';
 $isMobile = preg_match($patternMobile, $uaStart);
 
 
-if($isPhone || $isMobile) {
-    echo "it is a phone";
-    // do something with that device
-} else {
-    // process normally
-    echo "it is a computer";
-}
+// if($isPhone || $isMobile) {
+//     echo "it is a phone";
+//     // do something with that device
+// } else {
+//     // process normally
+//     echo "it is a computer";
+// }

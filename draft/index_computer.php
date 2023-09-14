@@ -9,25 +9,17 @@ session_start();
 
 // $_SESSION["Log_close"] = "False";
 
-// if($isPhone || $isMobile) {
-//     echo "it is a phone";
-//     include("function/Mobile_Style.php");
-//     // do something with that device
-// } else {
-//     // process normally
-//     // echo "it is a computer";
-//     // include("function/Mobile_Style.php");
-//     // include("function/Computer_Style.php");
-// }
 
 
-// if($isPhone || $isMobile) {
-//     echo "it is a phone";
-//     // do something with that device
-// } else {
-//     // process normally
-//     echo "it is a computer";
-// }
+
+if($isPhone || $isMobile) {
+    echo "it is a phone";
+    // do something with that device
+} else {
+    // process normally
+    echo "it is a computer";
+    $_SESSION["style"] = "Computer";
+}
 
 ?>
 <!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->

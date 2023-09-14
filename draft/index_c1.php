@@ -1,42 +1,39 @@
+
+
 <?php 
 include("header.php"); 
 include("function/database_connect.php");
-include("function/check_mobile.php");
 date_default_timezone_set('America/Toronto'); 
+// // include("Mobile-Detect/src/MobileDetect.php");
+include("function/check_mobile.php");
+// // echo is_mobile();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
+$_SESSION["style"] = "Computer";
 
 // $_SESSION["Log_close"] = "False";
 
-// if($isPhone || $isMobile) {
-//     echo "it is a phone";
-//     include("function/Mobile_Style.php");
-//     // do something with that device
-// } else {
-//     // process normally
-//     // echo "it is a computer";
-//     // include("function/Mobile_Style.php");
-//     // include("function/Computer_Style.php");
-// }
-
-
-// if($isPhone || $isMobile) {
-//     echo "it is a phone";
-//     // do something with that device
-// } else {
-//     // process normally
-//     echo "it is a computer";
-// }
-
+if($isPhone || $isMobile) {
+    echo "it is a phone";
+    include("function/Mobile_Style.php");
+    // do something with that device
+} else {
+    // process normally
+    // echo "it is a computer";
+    // include("function/Mobile_Style.php");
+    // include("function/Computer_Style.php");
+    // $_SESSION["style"] = "Computer"; 1
+}
 ?>
 <!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->
-<br>
+
+    
+
 <div>
 <form action="" method="GET">
     <div id = "searchbar" class="form-group"  align = "center" style="width: 100%;height:50px;">
-        <input type="text" name="search"  style="width: 85%;height:85%; text-align:center; border: 1px solid #555;" value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-group" placeholder="Search Inventory" >
-        <!-- </div> -->
+        <input type="text" name="search"  style="width:50%;height:85%; text-align:center; border: 1px solid #555;" value="<?php if(isset($_GET['search'])){echo $_GET['search']; } ?>" class="form-group" placeholder="Search Inventory" >
         <button type="submit" class="btn btn-primary btn-block" id = "btn_search" >Search</button>
         <!-- Note: No requirement (required) for filling in the bar: easy to get all item. -->
     </div>
@@ -48,11 +45,9 @@ session_start();
 $sql = "SELECT * FROM `ITM_Logs` WHERE `id` = (SELECT MAX(`id`) FROM ITM_Logs)";
 $result = mysqli_query($connect, $sql);  
 $row = mysqli_fetch_array($result);
-
+// echo $row["person"];
 ?>
 
-
-<!-- <button onclick="showPopup()">Open Pop-up</button> -->
 <div class="overlay1" id="overlay1">
     <div class="popup">
         <label for="person">User Name: </label><br>
@@ -80,9 +75,8 @@ $row = mysqli_fetch_array($result);
         <!-- <button  class="btn btn-danger btn-block" id = "btn_close" >Cancel</button>  calss = "form-control"-->
     </div>
 </div>
-
 <!-- ########################  Logs  ############################## -->
-<div id = "logs" style="padding-left: 50px;" >
+<div id = "logs" align="center" >
     <a href = "log_page.php">
         <button style = "background-color: transparent; font-size: 25px;border: none; text-decoration:underline"> Logs </button>
     </a>
@@ -97,16 +91,25 @@ $row = mysqli_fetch_array($result);
 </div>
 
 <?php
- $_SESSION["search"]="";
+
+$_SESSION["style"] = "Mobile";
+
 // Store variable
+$_SESSION["search"] = "";
+
 if(isset($_GET['search'])){
     $_SESSION["search"] = $_GET['search'];
 }
+
 $_SESSION["notify"]="";
 if(isset($_GET['notify'])){
     $_SESSION["notify"] = $_GET['notify'];
 }
  ?>
+<?php
+// Store variable
+// $_SESSION["search"] = $_GET['search']; 
+// $_SESSION["notify"] = $_GET['notify']; ?>
 
 <!-- ########################  Create CSV  ############################## -->
 
@@ -129,10 +132,13 @@ $_SESSION["recipient"] = $_GET['recipient']; }
 
 ?>
 
+
 <!-- Placeholder -->
 <div id = "disp_data"></div>
+<!-- Button trigger modal -->
 
 <script>
+
 
 function showPopup() {
     document.getElementById('overlay1').style.display = 'flex';
@@ -402,6 +408,37 @@ function delete1(id, name){
 
 </script>
     
-
 </body>  
-</html>
+</html>  
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
