@@ -32,7 +32,7 @@
 
 <?php 
 // include("header.php"); 
-include("database_connect.php");
+include("function/database_connect.php");
 date_default_timezone_set('America/Toronto'); 
 // include("Mobile-Detect/src/MobileDetect.php");
 // include("function/check_mobile.php");

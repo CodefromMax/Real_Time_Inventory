@@ -1,13 +1,9 @@
 <?php 
 include("header.php"); //?
-include("../database_connect.php");
+include("function/database_connect.php");
 date_default_timezone_set('America/Toronto'); 
-// include("Mobile-Detect/src/MobileDetect.php");
-// include("function/check_mobile.php");
-// echo is_mobile();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-// session_start();
 $_SESSION["style"] = "Computer";
 ?>
 

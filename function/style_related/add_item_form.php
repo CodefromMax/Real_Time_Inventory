@@ -1,8 +1,9 @@
-<form action="function/Mobile_Insert.php" method = "post">
+<form action="Mobile_Insert.php" method = "post">
 
 <!-- Button trigger modal -->
-<div style="padding-left: 40px;">
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >
+<!-- <div style="padding-left: 100px;"> -->
+<div align= "center">
+<button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">
 Add Item
 </button>
 </div>

@@ -123,11 +123,6 @@ background-color: #04AA6D;
 color: white;
 }
 
-/* html {
-  scroll-behavior: smooth;   
-  scroll-padding-top: 400px;
-} */
-
 .sticky {
   
 position: fixed;
@@ -141,7 +136,7 @@ width: 100%;
 
 }
 
-/*  */
+/* Overlay for log  */
 .overlay1 {
   display: none;
   position: fixed;
@@ -154,10 +149,10 @@ width: 100%;
   align-items: center;
 }
 
-/* Styling for the pop-up */
 .popup {
   background-color: white;
   padding: 20px 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
+
