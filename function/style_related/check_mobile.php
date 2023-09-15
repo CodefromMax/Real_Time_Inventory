@@ -242,14 +242,25 @@ $uaMobile = [
 //     echo "No match found.";
 // }
 
-$escapedUaPhone = array_map('preg_quote', $uaPhone);
+// $escapedUaPhone = array_map('preg_quote', $uaPhone);
+// $patternPhone = '/' . implode('|', $escapedUaPhone) . '/i';
+// $isPhone = preg_match($patternPhone, $uaFull);
+
+// $escapedUaMobile = array_map('preg_quote', $uaMobile);
+// $patternMobile = '/' . implode('|', $escapedUaMobile) . '/i';
+// $isMobile = preg_match($patternMobile, $uaStart);
+
+$escapedUaPhone = array_map(function($value) {
+    return preg_quote($value, '/');
+}, $uaPhone);
 $patternPhone = '/' . implode('|', $escapedUaPhone) . '/i';
 $isPhone = preg_match($patternPhone, $uaFull);
 
-$escapedUaMobile = array_map('preg_quote', $uaMobile);
+$escapedUaMobile = array_map(function($value) {
+    return preg_quote($value, '/');
+}, $uaMobile);
 $patternMobile = '/' . implode('|', $escapedUaMobile) . '/i';
 $isMobile = preg_match($patternMobile, $uaStart);
-
 
 // if($isPhone || $isMobile) {
 //     echo "it is a phone";

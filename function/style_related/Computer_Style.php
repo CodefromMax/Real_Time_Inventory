@@ -1,5 +1,5 @@
 <?php 
-include("header.php"); //?
+include("header.php");
 include("function/database_connect.php");
 date_default_timezone_set('America/Toronto'); 
 error_reporting(E_ALL);
@@ -25,37 +25,12 @@ $sql = "SELECT * FROM `ITM_Logs` WHERE `id` = (SELECT MAX(`id`) FROM ITM_Logs)";
 $result = mysqli_query($connect, $sql);  
 $row = mysqli_fetch_array($result);
 // echo $row["person"];
+
+include("log_overlay.php")
 ?>
 
 
-<!-- <button onclick="showPopup()">Open Pop-up</button> -->
-<div class="overlay1" id="overlay1">
-    <div class="popup">
-        <label for="person">User Name: </label><br>
-        <select name="person" id="person">
-            <option value="A" <?php if ($row["person"] == 'A') echo 'selected'; ?>>A</option>
-            <option value="B" <?php if ($row["person"] == 'B') echo 'selected'; ?>>B212122112</option>
-            <option value="C" <?php if ($row["person"] == 'C123') echo 'selected'; ?>>C</option>
-            <option value="D" <?php if ($row["person"] == 'D123') echo 'selected'; ?>>D</option>
-            <option value="E" <?php if ($row["person"] == 'E123') echo 'selected'; ?>>E</option>
-            <option value="F" <?php if ($row["person"] == 'F123') echo 'selected'; ?>>F</option>
-            <option value="Not_Here">Not Here</option>
-        </select>
-        <br>
-        <br>    
-        <label for="person1">If your name is not in the database: </label>
-        <br>
-        <input type="text" id="person1"  name = "person1" palceholder = "Please enter your name." >
-        <br>
-        <br>
-        <label for="note1">Note: </label><br>
-        <input type="text" id="note1"  name = "note1" >
-        <br>
-        <br>
-        <button onclick="processInput()" class="btn btn-primary btn-block" id = "process_input">Submit</button>
-        <!-- <button  class="btn btn-danger btn-block" id = "btn_close" >Cancel</button>  calss = "form-control"-->
-    </div>
-</div>
+
 <br  style = "line-height:100%;" >
 <!-- ########################  Logs  ############################## -->
 <div id = "logs" style="padding-left: 50px;" >

@@ -1,4 +1,4 @@
-<form action="Mobile_Insert.php" method = "post">
+<form action="function/style_related/Mobile_Insert.php" method = "post">
 
 <!-- Button trigger modal -->
 <!-- <div style="padding-left: 100px;"> -->

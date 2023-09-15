@@ -55,8 +55,7 @@ if ($_SESSION["style"] == "Mobile"){
                <!-- <th style = "text-align: center">Id</th>   -->
                <th style = "text-align: center">Edit</th>
                <th style = "text-align: center">Name</th>   
-               <th style = "text-align: center">Est.Q</th>  
-               
+               <th style = "text-align: center">Est.Q</th>                 
                <th style = "text-align: center">Section</th>  
                <th style = "text-align: center">Shelf</th>  
                <th style = "text-align: center">Level</th>  
@@ -67,7 +66,6 @@ if ($_SESSION["style"] == "Mobile"){
                <th style = "text-align: center">Minimum</th>  
                <th style = "text-align: center">Boxes</th>  
                <th style = "text-align: center">Owner</th>
-               <th style = "text-align: center">Status</th>  
                <th style = "text-align: center">Supplier</th>   
                <th style = "text-align: center">Action</th>
           </tr>

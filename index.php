@@ -2,18 +2,19 @@
 
 session_start();
 $_SESSION["style"] = "Computer";
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // $_SESSION["Log_close"] = "False";
-
+include("function/style_related/check_mobile.php");
 if($isPhone || $isMobile) {
-    echo "it is a phone";
+    // echo "it is a phone";
     include("function/style_related/Mobile_Style.php");
     // do something with that device
 } else {
     // process normally
-    // echo "it is a computer";
-    include("function/style_related/Mobile_Style.php");
-    // include("function/Computer_Style.php");
+    echo "it is a computer";
+    // include("function/style_related/Mobile_Style.php");
+    include("function/style_related/Computer_Style.php");
 }
 ?>
 <!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->
