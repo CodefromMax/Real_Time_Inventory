@@ -1,15 +1,27 @@
-<?php include("header.php"); 
+<?php 
+include("header.php"); 
 include("function/database_connect.php");
+include("function/style_related/check_mobile.php");
 date_default_timezone_set('America/Toronto'); 
-// include("Mobile-Detect/src/MobileDetect.php");
-// include("function/check_mobile.php");
-// echo is_mobile();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
-$_SESSION["style"] = "Computer";
-?>
 
+// $_SESSION["Log_close"] = "False";
+
+
+
+
+if($isPhone || $isMobile) {
+    echo "it is a phone";
+    // do something with that device
+} else {
+    // process normally
+    echo "it is a computer";
+}
+
+?>
+<!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->
 <br>
 <div>
 <form action="" method="GET">
@@ -27,7 +39,7 @@ $_SESSION["style"] = "Computer";
 $sql = "SELECT * FROM `ITM_Logs` WHERE `id` = (SELECT MAX(`id`) FROM ITM_Logs)";
 $result = mysqli_query($connect, $sql);  
 $row = mysqli_fetch_array($result);
-// echo $row["person"];
+
 ?>
 
 
@@ -59,7 +71,7 @@ $row = mysqli_fetch_array($result);
         <!-- <button  class="btn btn-danger btn-block" id = "btn_close" >Cancel</button>  calss = "form-control"-->
     </div>
 </div>
-<br  style = "line-height:100%;" >
+
 <!-- ########################  Logs  ############################## -->
 <div id = "logs" style="padding-left: 50px;" >
     <a href = "log_page.php">
@@ -76,21 +88,16 @@ $row = mysqli_fetch_array($result);
 </div>
 
 <?php
-
-
-
+ $_SESSION["search"]="";
 // Store variable
-$_SESSION["search"] = "";
 if(isset($_GET['search'])){
     $_SESSION["search"] = $_GET['search'];
 }
-
 $_SESSION["notify"]="";
 if(isset($_GET['notify'])){
     $_SESSION["notify"] = $_GET['notify'];
 }
  ?>
-
 
 <!-- ########################  Create CSV  ############################## -->
 
@@ -112,39 +119,35 @@ if(isset($_GET['recipient'])){
 $_SESSION["recipient"] = $_GET['recipient']; }
 
 ?>
-<!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->
-
 
 <!-- Placeholder -->
 <div id = "disp_data"></div>
-<!-- Button trigger modal -->
 
 <script>
-
 
 function showPopup() {
     document.getElementById('overlay1').style.display = 'flex';
 }
 
-// function processInput() {
+function processInput() {
 
-//     // return new Promise((resolve, reject) => {
-//     var userName = document.getElementById('person').value;
-//     var userNote = document.getElementById('note1').value;
-//     if (userName == "Not_Here" ){
-//         userName = document.getElementById('person1').value;
-//     }
+    // return new Promise((resolve, reject) => {
+    var userName = document.getElementById('person').value;
+    var userNote = document.getElementById('note1').value;
+    if (userName == "Not_Here" ){
+        userName = document.getElementById('person1').value;
+    }
 
-//     // You can process the input here or send it to a server-side script using AJAX
-//     var xmlhttp = new XMLHttpRequest();
-//     xmlhttp.open("POST", "function/complete_log.php",false);
-//     xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-//     xmlhttp.send("person="+userName+"&note="+userNote);
+    // You can process the input here or send it to a server-side script using AJAX
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "function/complete_log.php",false);
+    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xmlhttp.send("person="+userName+"&note="+userNote);
 
-//     // Close the pop-up
-//     document.getElementById('overlay1').style.display = 'none';
+    // Close the pop-up
+    document.getElementById('overlay1').style.display = 'none';
 
-// }
+}
 
 $(document).on('click', '#btn_close', function(){ 
     <?php 
@@ -256,13 +259,7 @@ function inner_edit(id,Column){
 
 function edit1(id){
     inner_edit(id,"Name");
-    <?php if (!$_SESSION["style"]== "Mobile"){
-        ?>
-        inner_edit(id,"Supplier");
-        <?php
-    }
-    ?>
-    // inner_edit(id,"Supplier");
+    inner_edit(id,"Supplier");
     inner_edit(id,"Est_Quantity");
     inner_edit(id,"Exact_Quantity");
     inner_edit(id,"Minimum");
@@ -396,37 +393,7 @@ function delete1(id, name){
 
 </script>
     
+
 </body>  
 </html>  
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 

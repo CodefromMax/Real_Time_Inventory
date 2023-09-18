@@ -25,8 +25,8 @@ $sql = "SELECT * FROM `ITM_Logs` WHERE `id` = (SELECT MAX(`id`) FROM ITM_Logs)";
 $result = mysqli_query($connect, $sql);  
 $row = mysqli_fetch_array($result);
 // echo $row["person"];
-
-include("log_overlay.php")
+// No problem with this include.
+include("function/style_related/log_overlay.php");
 ?>
 
 
