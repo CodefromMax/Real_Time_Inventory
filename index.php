@@ -13,8 +13,8 @@ if($isPhone || $isMobile) {
 } else {
     // process normally
     // echo "it is a computer";
-    include("function/style_related/Mobile_Style.php");
-    // include("function/style_related/Computer_Style.php");
+    // include("function/style_related/Mobile_Style.php");
+    include("function/style_related/Computer_Style.php");
 }
 ?>
 <!-- ########################  Search bar  ############################## style="width: 95%;padding: 50px;height:30px;" class="input-group mb-3" class="form-control" -->
